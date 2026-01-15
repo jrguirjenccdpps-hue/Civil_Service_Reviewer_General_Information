@@ -23,8 +23,6 @@ button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;font-s
 .exp{font-size:14px;margin-top:8px;color:#333}
 #bar{background:#ddd;height:10px;border-radius:5px;margin:10px 0}
 #prog{background:#1a237e;height:10px;width:0%;border-radius:5px}
-.tip{margin-top:15px;background:#e8f5e9;padding:12px;border-left:5px solid #2e7d32;font-size:14px}
-.copy{background:#2e7d32;color:#fff;padding:5px 10px;font-size:12px;border-radius:5px;margin-left:5px}
 .footer{text-align:center;font-size:12px;color:#555;margin-top:25px}
 </style>
 </head>
@@ -43,17 +41,8 @@ and basic current affairs — aligned with the CSE.
   <button class="level" onclick="start('normal')">Normal</button>
   <button class="level" onclick="start('hard')">Hard</button>
 
-  <button class="back" onclick="feedback()">Send Feedback</button>
-  <button class="back" onclick="share()">Share Reviewer</button>
-
-  <div class="tip">
-    💡 <b>Support this Reviewer</b><br>
-    GCash: <b>09652367470</b>
-    <button class="copy" onclick="copyText('09652367470')">Copy</button><br>
-    PalawanPay: <b>639652367470</b>
-    <button class="copy" onclick="copyText('639652367470')">Copy</button><br><br>
-    <em>“Small support helps improve free education tools.”</em>
-  </div>
+  <!-- Back button to main reviewer page -->
+  <button class="back" onclick="location.href='https://jrguirjenccdpps-hue.github.io/Civil-Service-Exam-Reviewer/'">Back to Main Menu</button>
 </div>
 
 <div id="quiz" class="hidden">
@@ -181,7 +170,6 @@ hard:[
 {q:"What year was CSC established?",c:["1900","1898","1935","1946"],a:"1900",e:"Established under US rule."}
 ]
 };
-
 let set=[],i=0,score=0;
 
 function start(l){menu.classList.add("hidden");quiz.classList.remove("hidden");set=Q[l];i=0;score=0;show()}
@@ -210,9 +198,6 @@ function next(){i++;i>=set.length?finish():show()}
 function finish(){quiz.classList.add("hidden");result.classList.remove("hidden");scoreEl=`${score}/${set.length}`}
 function reset(){i=0;score=0;show()}
 function home(){quiz.classList.add("hidden");result.classList.add("hidden");menu.classList.remove("hidden")}
-function copyText(t){navigator.clipboard.writeText(t);alert("Copied!")}
-function feedback(){location.href="mailto:joshuaguirjen01@gmail.com"}
-function share(){navigator.clipboard.writeText(location.href);alert("Link copied!")}
 </script>
 </body>
 </html>
