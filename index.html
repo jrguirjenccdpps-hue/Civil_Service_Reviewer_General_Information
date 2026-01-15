@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Civil Service Reviewer – General Information</title>
+
+<style>
+body{font-family:Arial,Helvetica,sans-serif;background:#f2f4f8;margin:0;padding:15px}
+.container{max-width:750px;margin:auto;background:#fff;padding:20px;border-radius:10px;box-shadow:0 4px 10px rgba(0,0,0,.1)}
+h1{text-align:center;color:#1a237e;font-size:clamp(28px,5vw,40px);margin-bottom:5px}
+.desc{text-align:center;color:#555;font-size:15px;margin-bottom:15px}
+button{width:100%;padding:12px;margin:6px 0;border:none;border-radius:8px;font-size:16px;cursor:pointer}
+.level{background:#1a237e;color:#fff}
+.level:hover{background:#283593}
+.choice{background:#e8f0fe}
+.choice:hover{background:#d2e3fc}
+.next{background:#2e7d32;color:#fff}
+.reset{background:#c62828;color:#fff}
+.back{background:#616161;color:#fff}
+.hidden{display:none}
+.q{font-size:18px;font-weight:bold;margin:10px 0}
+.exp{font-size:14px;margin-top:8px;color:#333}
+#bar{background:#ddd;height:10px;border-radius:5px;margin:10px 0}
+#prog{background:#1a237e;height:10px;width:0%;border-radius:5px}
+.tip{margin-top:15px;background:#e8f5e9;padding:12px;border-left:5px solid #2e7d32;font-size:14px}
+.copy{background:#2e7d32;color:#fff;padding:5px 10px;font-size:12px;border-radius:5px;margin-left:5px}
+.footer{text-align:center;font-size:12px;color:#555;margin-top:25px}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Civil Service Reviewer<br>General Information</h1>
+<p class="desc">
+Focuses on Philippine history, government, constitution, geography, culture,
+and basic current affairs — aligned with the CSE.
+</p>
+
+<div id="menu">
+  <button class="level" onclick="start('easy')">Easy</button>
+  <button class="level" onclick="start('normal')">Normal</button>
+  <button class="level" onclick="start('hard')">Hard</button>
+
+  <button class="back" onclick="feedback()">Send Feedback</button>
+  <button class="back" onclick="share()">Share Reviewer</button>
+
+  <div class="tip">
+    💡 <b>Support this Reviewer</b><br>
+    GCash: <b>09652367470</b>
+    <button class="copy" onclick="copyText('09652367470')">Copy</button><br>
+    PalawanPay: <b>639652367470</b>
+    <button class="copy" onclick="copyText('639652367470')">Copy</button><br><br>
+    <em>“Small support helps improve free education tools.”</em>
+  </div>
+</div>
+
+<div id="quiz" class="hidden">
+  <div id="bar"><div id="prog"></div></div>
+  <div id="num"></div>
+  <div id="text" class="q"></div>
+  <div id="choices"></div>
+  <div id="exp" class="exp"></div>
+
+  <button class="next" onclick="next()">Next</button>
+  <button class="reset" onclick="reset()">Reset</button>
+  <button class="back" onclick="home()">Back</button>
+</div>
+
+<div id="result" class="hidden">
+  <h2 id="score"></h2>
+  <button class="level" onclick="home()">Back to Menu</button>
+</div>
+
+<div class="footer">
+⚠️ Disclaimer: For educational purposes only.<br>
+Created by: <b>Joshua Guirjen</b>
+</div>
+
+</div>
+
+<script>
+const Q={
+easy:[
+{q:"What is the capital of the Philippines?",c:["Manila","Cebu","Davao","Baguio"],a:"Manila",e:"Manila is the capital city."},
+{q:"Who is the national hero of the Philippines?",c:["Jose Rizal","Andres Bonifacio","Emilio Aguinaldo","Antonio Luna"],a:"Jose Rizal",e:"Jose Rizal is recognized as the national hero."},
+{q:"What is the national language?",c:["Filipino","English","Spanish","Chinese"],a:"Filipino",e:"Filipino is the national language."},
+{q:"How many branches of government are there?",c:["3","2","4","5"],a:"3",e:"Executive, Legislative, Judicial."},
+{q:"What date is Independence Day?",c:["June 12","July 4","May 1","Aug 21"],a:"June 12",e:"Independence Day is June 12."},
+{q:"Who was the first President of the Philippines?",c:["Emilio Aguinaldo","Manuel Quezon","Jose Laurel","Sergio Osmeña"],a:"Emilio Aguinaldo",e:"He was the first president."},
+{q:"What is the Philippine currency?",c:["Peso","Dollar","Yen","Won"],a:"Peso",e:"Peso is the official currency."},
+{q:"What sea is west of the Philippines?",c:["West Philippine Sea","Sulu Sea","Celebes Sea","Philippine Sea"],a:"West Philippine Sea",e:"It lies to the west."},
+{q:"Which color in the flag means bravery?",c:["Red","Blue","White","Yellow"],a:"Red",e:"Red symbolizes bravery."},
+{q:"What is the longest river in PH?",c:["Cagayan River","Pasig River","Agusan River","Pampanga River"],a:"Cagayan River",e:"It is the longest."},
+{q:"What is the highest mountain?",c:["Mt. Apo","Mt. Pulag","Mt. Mayon","Mt. Arayat"],a:"Mt. Apo",e:"Mt. Apo is the highest."},
+{q:"Who is the father of Filipino nationalism?",c:["Jose Rizal","Bonifacio","Del Pilar","Mabini"],a:"Jose Rizal",e:"Rizal awakened nationalism."},
+{q:"What animal is on the 1-peso coin?",c:["Philippine Eagle","Carabao","Tamaraw","Bangus"],a:"Philippine Eagle",e:"The eagle symbolizes strength."},
+{q:"How many stars are on the flag?",c:["3","4","5","1"],a:"3",e:"Represents Luzon, Visayas, Mindanao."},
+{q:"What is the seat of government?",c:["Malacañang","Batasan","Supreme Court","Congress"],a:"Malacañang",e:"Malacañang is the seat."},
+{q:"Who wrote Noli Me Tangere?",c:["Jose Rizal","Bonifacio","Jacinto","Mabini"],a:"Jose Rizal",e:"Rizal wrote Noli."},
+{q:"What body makes laws?",c:["Congress","President","Supreme Court","CSC"],a:"Congress",e:"Congress creates laws."},
+{q:"Which island group is Cebu in?",c:["Visayas","Luzon","Mindanao","Palawan"],a:"Visayas",e:"Cebu is in Visayas."},
+{q:"Who was Lapu-Lapu?",c:["Hero of Mactan","Spanish Governor","Priest","President"],a:"Hero of Mactan",e:"He defeated Magellan."},
+{q:"What is the national bird?",c:["Philippine Eagle","Maya","Parrot","Owl"],a:"Philippine Eagle",e:"Declared national bird."},
+{q:"What ocean surrounds PH?",c:["Pacific","Atlantic","Indian","Arctic"],a:"Pacific",e:"PH is in the Pacific."},
+{q:"Who leads the executive branch?",c:["President","Chief Justice","Senate President","Speaker"],a:"President",e:"The President heads it."},
+{q:"What is Barangay?",c:["Smallest political unit","Province","City","Region"],a:"Smallest political unit",e:"Barangay is the smallest."},
+{q:"What does the sun in the flag represent?",c:["Freedom","Unity","Peace","Justice"],a:"Freedom",e:"Sun represents freedom."},
+{q:"What is the capital of Cebu?",c:["Cebu City","Mandaue","Lapu-Lapu","Talisay"],a:"Cebu City",e:"Cebu City is capital."},
+{q:"Who is the current President (2025)?",c:["Ferdinand Marcos Jr.","Duterte","Aquino","Arroyo"],a:"Ferdinand Marcos Jr.",e:"He is the current president."},
+{q:"What is the national flower?",c:["Sampaguita","Rose","Orchid","Tulip"],a:"Sampaguita",e:"Sampaguita is national flower."},
+{q:"Which body interprets laws?",c:["Supreme Court","Congress","President","COMELEC"],a:"Supreme Court",e:"SC interprets laws."},
+{q:"What is May 1?",c:["Labor Day","Independence Day","Heroes Day","Rizal Day"],a:"Labor Day",e:"May 1 is Labor Day."},
+{q:"Who discovered PH?",c:["Ferdinand Magellan","Columbus","Cook","Legazpi"],a:"Ferdinand Magellan",e:"He arrived in 1521."}
+],
+
+/* NORMAL (30) */
+normal:[
+{q:"What constitution is in effect today?",c:["1987 Constitution","1935","1973","Malolos"],a:"1987 Constitution",e:"The 1987 Constitution is current."},
+{q:"Who is the Brain of the Katipunan?",c:["Emilio Jacinto","Bonifacio","Aguinaldo","Mabini"],a:"Emilio Jacinto",e:"Jacinto was the Brain."},
+{q:"Term of the President?",c:["6 years","4 years","5 years","3 years"],a:"6 years",e:"President serves 6 years."},
+{q:"Who authored Malolos Constitution?",c:["Felipe Calderon","Mabini","Paterno","Aguinaldo"],a:"Felipe Calderon",e:"He authored it."},
+{q:"What year was Martial Law declared?",c:["1972","1965","1981","1986"],a:"1972",e:"Declared by Marcos."},
+{q:"Who was the first Commonwealth President?",c:["Manuel Quezon","Osmeña","Roxas","Laurel"],a:"Manuel Quezon",e:"Quezon led Commonwealth."},
+{q:"What is the highest law of the land?",c:["Constitution","Statute","Executive Order","Ordinance"],a:"Constitution",e:"The Constitution is supreme."},
+{q:"What agency conducts elections?",c:["COMELEC","CSC","COA","DSWD"],a:"COMELEC",e:"COMELEC conducts elections."},
+{q:"Who declared PH independence?",c:["Aguinaldo","Bonifacio","Rizal","Quezon"],a:"Aguinaldo",e:"Declared June 12, 1898."},
+{q:"What is the legislative body?",c:["Congress","Cabinet","Supreme Court","COA"],a:"Congress",e:"Congress makes laws."},
+{q:"Who is the father of PH democracy?",c:["Quezon","Rizal","Osmeña","Roxas"],a:"Quezon",e:"Quezon led democracy."},
+{q:"What is the national slogan?",c:["Maka-Diyos","Isang Bansa","Unity","Bayanihan"],a:"Maka-Diyos",e:"From constitution values."},
+{q:"What is the term of Senators?",c:["6 years","3 years","4 years","5 years"],a:"6 years",e:"Senators serve 6 years."},
+{q:"What is the judiciary head?",c:["Chief Justice","Speaker","President","Senate Pres."],a:"Chief Justice",e:"Heads judiciary."},
+{q:"What law promotes ethical conduct?",c:["RA 6713","RA 9165","RA 1425","RA 10173"],a:"RA 6713",e:"Code of Conduct."},
+{q:"Who was the first female president?",c:["Corazon Aquino","Arroyo","Imelda","Poe"],a:"Corazon Aquino",e:"First female president."},
+{q:"What is Batas Pambansa?",c:["Law","Court","Agency","Budget"],a:"Law",e:"It is legislation."},
+{q:"What body audits govt funds?",c:["COA","CSC","DBM","NEDA"],a:"COA",e:"COA audits funds."},
+{q:"What region is NCR?",c:["National Capital Region","Northern Luzon","Central Luzon","Metro South"],a:"National Capital Region",e:"NCR stands for this."},
+{q:"Who wrote Kartilya ng Katipunan?",c:["Emilio Jacinto","Bonifacio","Rizal","Del Pilar"],a:"Emilio Jacinto",e:"He wrote Kartilya."},
+{q:"What holiday is Aug 21?",c:["Ninoy Aquino Day","Heroes Day","Bonifacio Day","Labor Day"],a:"Ninoy Aquino Day",e:"Aug 21 honors Ninoy."},
+{q:"What is the national tree?",c:["Narra","Mahogany","Acacia","Pine"],a:"Narra",e:"Narra is national tree."},
+{q:"What is the capital of Ilocos Norte?",c:["Laoag","Vigan","Batac","Candon"],a:"Laoag",e:"Laoag is capital."},
+{q:"What does CSC stand for?",c:["Civil Service Commission","Central Service Corp","City Service Council","Civil Security Command"],a:"Civil Service Commission",e:"CSC manages civil service."},
+{q:"Who approves the national budget?",c:["Congress","President","COA","DBM"],a:"Congress",e:"Congress approves it."},
+{q:"What is the smallest province?",c:["Batanes","Siquijor","Camiguin","Dinagat"],a:"Batanes",e:"Batanes is smallest."},
+{q:"Who is the father of Katipunan?",c:["Bonifacio","Rizal","Jacinto","Aguinaldo"],a:"Bonifacio",e:"He founded Katipunan."},
+{q:"What body checks constitutionality?",c:["Supreme Court","Congress","President","COA"],a:"Supreme Court",e:"Judicial review power."},
+{q:"What is June 30?",c:["End of Presidential term","Independence","Budget Day","Election"],a:"End of Presidential term",e:"Term ends June 30."}
+],
+
+/* HARD (30) */
+hard:[
+{q:"What treaty ended Spanish rule?",c:["Treaty of Paris","Treaty of Versailles","Treaty of Ghent","Treaty of Tordesillas"],a:"Treaty of Paris",e:"Signed in 1898."},
+{q:"Who was the first Chief Justice?",c:["Cayetano Arellano","Moran","Abad Santos","Narvasa"],a:"Cayetano Arellano",e:"First Chief Justice."},
+{q:"What doctrine allows judicial review?",c:["Marbury Doctrine","Police Power","Checks","Separation"],a:"Marbury Doctrine",e:"From Marbury v. Madison."},
+{q:"What body plans economic dev?",c:["NEDA","DBM","COA","DOF"],a:"NEDA",e:"National Economic Dev Authority."},
+{q:"What year was 1987 Constitution ratified?",c:["1987","1986","1988","1990"],a:"1987",e:"Ratified in 1987."},
+{q:"Who was president during EDSA I?",c:["Marcos","Aquino","Ramos","Estrada"],a:"Marcos",e:"EDSA I ousted Marcos."},
+{q:"What is the doctrine of separation?",c:["Division of powers","Federalism","Unitary","Checks"],a:"Division of powers",e:"Divides govt power."},
+{q:"Who was the first Senate President?",c:["Manuel Quezon","Roxas","Osmeña","Laurel"],a:"Manuel Quezon",e:"First Senate President."},
+{q:"What is the COA chair term?",c:["7 years","6 years","5 years","4 years"],a:"7 years",e:"Fixed 7-year term."},
+{q:"What case established judicial review?",c:["Angara v. Electoral Commission","People v. Hernandez","Miranda v. Arizona","US v. Nixon"],a:"Angara v. Electoral Commission",e:"PH judicial review case."},
+{q:"What is the Ombudsman role?",c:["Investigate corruption","Make laws","Judge cases","Collect taxes"],a:"Investigate corruption",e:"Anti-graft body."},
+{q:"What law is the Anti-Graft law?",c:["RA 3019","RA 6713","RA 9165","RA 6975"],a:"RA 3019",e:"Anti-Graft Act."},
+{q:"What branch has power of purse?",c:["Legislative","Executive","Judicial","COA"],a:"Legislative",e:"Congress controls budget."},
+{q:"Who headed revolutionary gov't?",c:["Aguinaldo","Bonifacio","Rizal","Mabini"],a:"Aguinaldo",e:"He led it."},
+{q:"What body administers civil service exams?",c:["CSC","CHED","PRC","DepEd"],a:"CSC",e:"CSC handles exams."},
+{q:"What is the meaning of checks & balances?",c:["Limits abuse of power","Absolute power","Single authority","No control"],a:"Limits abuse of power",e:"Prevents dominance."},
+{q:"What is the PH form of gov't?",c:["Republican","Monarchy","Federal","Parliamentary"],a:"Republican",e:"PH is a republic."},
+{q:"Who wrote La Indolencia?",c:["Jose Rizal","Del Pilar","Jaena","Bonifacio"],a:"Jose Rizal",e:"Rizal essay."},
+{q:"What is the budget law called?",c:["GAA","NAP","IRA","AIP"],a:"GAA",e:"General Appropriations Act."},
+{q:"What is the highest elective office?",c:["President","Vice President","Senator","Governor"],a:"President",e:"Head of state."},
+{q:"What power allows suspension of writ?",c:["Commander-in-Chief","Police Power","Eminent Domain","Taxation"],a:"Commander-in-Chief",e:"Const power."},
+{q:"What is the national anthem?",c:["Lupang Hinirang","Bayan Ko","Philippine Hymn","Awit ng Bayan"],a:"Lupang Hinirang",e:"National anthem."},
+{q:"Who was first female CJ?",c:["Hilario Davide","Sereno","Corona","Puno"],a:"Sereno",e:"Maria Lourdes Sereno."},
+{q:"What law is Rizal Law?",c:["RA 1425","RA 3019","RA 6713","RA 6975"],a:"RA 1425",e:"Mandates Rizal studies."},
+{q:"What body resolves election disputes?",c:["HRET/SET","CSC","COA","COMELEC"],a:"HRET/SET",e:"Tribunals decide disputes."},
+{q:"What is the official gazette?",c:["Official Gazette","Manila Times","Philippine Star","Inquirer"],a:"Official Gazette",e:"Official publication."},
+{q:"What is the meaning of unitary gov't?",c:["Centralized power","Divided power","Federal states","Autonomous"],a:"Centralized power",e:"Power from center."},
+{q:"Who leads the Senate?",c:["Senate President","Speaker","Chief Justice","President"],a:"Senate President",e:"He leads Senate."},
+{q:"What year was CSC established?",c:["1900","1898","1935","1946"],a:"1900",e:"Established under US rule."}
+]
+};
+
+let set=[],i=0,score=0;
+
+function start(l){menu.classList.add("hidden");quiz.classList.remove("hidden");set=Q[l];i=0;score=0;show()}
+function show(){
+  let q=set[i];
+  num.innerText=`Question ${i+1} of ${set.length}`;
+  text.innerText=q.q;
+  exp.innerText="";
+  choices.innerHTML="";
+  q.c.forEach(c=>{
+    let b=document.createElement("button");
+    b.className="choice";
+    b.innerText=c;
+    b.onclick=()=>answer(c);
+    choices.appendChild(b);
+  });
+  prog.style.width=(i/set.length*100)+"%";
+}
+function answer(c){
+  let q=set[i];
+  if(c===q.a)score++;
+  exp.innerText=q.e;
+  document.querySelectorAll(".choice").forEach(b=>b.disabled=true);
+}
+function next(){i++;i>=set.length?finish():show()}
+function finish(){quiz.classList.add("hidden");result.classList.remove("hidden");scoreEl=`${score}/${set.length}`}
+function reset(){i=0;score=0;show()}
+function home(){quiz.classList.add("hidden");result.classList.add("hidden");menu.classList.remove("hidden")}
+function copyText(t){navigator.clipboard.writeText(t);alert("Copied!")}
+function feedback(){location.href="mailto:joshuaguirjen01@gmail.com"}
+function share(){navigator.clipboard.writeText(location.href);alert("Link copied!")}
+</script>
+</body>
+</html>
